@@ -8,6 +8,6 @@ export const getDollar = async () => {
     const data = await response.json();
     const price = data.rates.ARS;
     ARS = JSON.parse(price);
-    console.log(price);
+    parseFloat(ARS)
     return ARS;
 } 

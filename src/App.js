@@ -4,12 +4,17 @@ import { getDollar } from './API/getDollar';
 
 const App = () => {
 
-    const price = useState('');
+    const ARS = getDollar()
+    
+    const [price, setPrice] = useState('');
 
-    const calculate = async (e) => {
+    var prodPrice = ARS*price;
+
+    const calculate = (e) => {
         if(e.key === 'Enter') {
-            const priceIn = await getDollar()
-            console.log(priceIn);
+            console.log(ARS);
+            console.log(price);
+            console.log(prodPrice);
         }
     }
 
@@ -17,10 +22,11 @@ const App = () => {
         <div className="App">
             <h1>Dollary</h1>
             <input
-                type="text"
-                className="inputPrice"
+                type="number"
+                className="calculate"
                 placeholder="Ingrese el precio del producto..."
-                onChange={(e) => price(e.target.value)}
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
                 onKeyPress={calculate}
             />
         </div>
