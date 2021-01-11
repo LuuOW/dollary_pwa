@@ -4,23 +4,58 @@ import { getDollar } from './API/getDollar';
 
 const App = () => {
 
-    const ARS = getDollar()
-    
-    const [price, setPrice] = useState('');
+    getDollar();
 
-    var prodPrice = ARS*price;
+
+
+    const [price, setPrice] = useState('');
 
     const calculate = (e) => {
         if(e.key === 'Enter') {
-            console.log(ARS);
-            console.log(price);
-            console.log(prodPrice);
+            calcNow();
         }
+    }
+
+    const calcNow = () => {
+
+        const prodPrice = price * getDollar()
+        console.log(prodPrice);
+        var imp30 = prodPrice * 3 / 10
+        const imp35 = prodPrice * 35 / 100
+        const imp21 = prodPrice * 21 / 100
+        const cin50 = prodPrice - 50
+        const imp50 = cin50 * 5 / 10
+
+        // if () {
+        //     imp30 = prodPrice * 8 / 100
+        // }
+
+        const ffTax = imp21 + imp30 + imp35 + imp50
+        const totalffTax = ffTax + prodPrice
+
+        const digTax = imp21 + imp30 + imp35
+        const totaldigTax = digTax + prodPrice
+
+        const fsTax = imp30 + imp21 + imp35
+        const totalfsTax = fsTax + prodPrice
+
+        const curTax = imp30 + imp35
+        const totalcurTax = curTax + prodPrice
     }
 
     return (
         <div className="App">
             <h1>Dollary</h1>
+            <p>Switch to Pesos</p>
+            <label className="switch">
+                <input type="checkbox" defaultChecked={false} />
+                <span className="slider round"></span>
+            </label>
+            <form>
+                <input type="radio" name="choice" value="digital" defaultChecked={false} />Digital
+                <input type="radio" name="choice" value="physical" defaultChecked={false} />Fisico
+                <input type="radio" name="choice" value="currency" defaultChecked={false} />Divisa
+            </form>
             <input
                 type="number"
                 className="calculate"
