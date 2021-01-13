@@ -26,9 +26,9 @@ const App = () => {
         const cin50 = prodPrice - 50
         const imp50 = cin50 * 5 / 10
 
-        // if () {
-        //     imp30 = prodPrice * 8 / 100
-        // }
+        if (document.getElementById('switch') === true) {
+            imp30 = prodPrice * 8 / 100
+        }
 
         const ffTax = imp21 + imp30 + imp35 + imp50
         const totalffTax = ffTax + prodPrice
@@ -48,7 +48,7 @@ const App = () => {
             <h1>Dollary</h1>
             <p>Switch to Pesos</p>
             <label className="switch">
-                <input type="checkbox" defaultChecked={false} />
+                <input id="switch" type="checkbox" defaultChecked={false} />
                 <span className="slider round"></span>
             </label>
             <form>
