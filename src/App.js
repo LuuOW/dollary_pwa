@@ -4,16 +4,16 @@ import { getDollar } from './API/getDollar';
 
 const App = () => {
 
-    getDollar();
-
-
-
     const [price, setPrice] = useState('');
 
     const calculate = (e) => {
         if(e.key === 'Enter') {
             calcNow();
         }
+    }
+
+    const calculateNow = (e) => {
+        calcNow();
     }
 
     const calcNow = () => {
@@ -41,6 +41,10 @@ const App = () => {
 
         const curTax = imp30 + imp35
         const totalcurTax = curTax + prodPrice
+
+        
+
+
     }
 
     return (
@@ -64,6 +68,7 @@ const App = () => {
                 onChange={(e) => setPrice(e.target.value)}
                 onKeyPress={calculate}
             />
+            <button className="calcBtn" id="calcBtn" type="submit" onClick={calculateNow}>Calcular</button>
         </div>
     );
 }
