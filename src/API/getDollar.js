@@ -9,8 +9,5 @@ export const getDollar = async () => {
     var { ARS } = rates;
     ARS = JSON.parse(ARS);
     ARS = parseFloat(ARS);
-    if (!isNaN(ARS)) {
-        console.log('ARS IS A NUMBER¡¡¡');
-    }
     return ARS;
 } 
