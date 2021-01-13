@@ -1,32 +1,29 @@
 import React, { useState } from 'react';
 import './App.css';
-import { getDollar } from './API/getDollar';
+//import { getDollar } from './API/getDollar';
 
 const App = () => {
 
-    var dollar = getDollar();
+    var finalPrice;
 
-    const [price, setPrice] = useState('');
-
-    const calculate = (e) => {
-        if (price === '') {
-            console.log('please enter a price');
-        }
-        if(e.key === 'Enter') {
-            calcNow();
-        }
-    }
-
-    const calculateNow = (e) => {
-        if (price === '') {
-            console.log('Please, enter a price');
-        } else {
-            calcNow();
-        }
-        
-    }
+    var dollar = 84;
 
     var isChecked = false;
+
+
+    var dig = false;
+    var cur = false;
+    var phys = false;
+
+
+    var totaldigTax;
+    var totalfsTax;
+    var totalffTax;
+    var totalcurTax;
+
+
+
+    const [price, setPrice] = useState('');
 
     const isOn = (e) => {
         if (isChecked === false) {
@@ -35,30 +32,48 @@ const App = () => {
             console.log('Modo pesos activado');
         } else {
             console.log('Modo pesos desactivado');
-            dollar = getDollar();
+            dollar = 84;
             isChecked = false;
         } 
     }
 
-    var totaldigTax;
-    var totalfsTax;
-    var totalffTax;
-    var totalcurTax;
+    const digOn = (e) => {
+        if (dig === false) {
+            dig = true;
+            console.log('Dig calculate');
+        }
+    }
 
-    var calcValue = false;
+    const physOn = (e) => {
+        if (phys === false) {
+            phys = true;
+            console.log('Physical calculate');
+        } 
+    }
+
+    const curOn = (e) => {
+        if (cur === false) {
+            cur = true;
+            console.log('Currency calculate');
+        } 
+    }
+
 
     const calcNow = () => {
 
-        calcValue = true;
+        //calcValue = true;
 
         const prodPrice = price * dollar;
 
-        console.log(prodPrice);
-        var imp30 = prodPrice * 3 / 10;
-        const imp35 = prodPrice * 35 / 100;
-        const imp21 = prodPrice * 21 / 100;
-        const cin50 = prodPrice - 50;
-        const imp50 = cin50 * 5 / 10;
+        var imp30 = prodPrice*3/10;
+        const imp35 = prodPrice*35/100;
+        const imp21 = prodPrice*21/100;
+        const cin50 = prodPrice-50;
+        const imp50 = cin50*5/10;
+
+        if (dig === true) {
+            imp30 = prodPrice*8/100;
+        }
 
 
         const ffTax = imp21 + imp30 + imp35 + imp50;
@@ -72,27 +87,66 @@ const App = () => {
 
         const curTax = imp30 + imp35;
         totalcurTax = curTax + prodPrice;
-
-    }
-    var finalPrice;
-
-    const digOn = (e) => {
-
-        console.log('Dig calculate')
-
     }
 
-    const physOn = (e) => {
+    const calculate = (e) => {
 
-        console.log('Physical calculate')
+        if (e.key === 'Enter') {
+            calcNow();
+        }
 
+        if (dig === true) {
+            finalPrice = totaldigTax;
+        }
+
+        if (phys === true) {
+            if (price <= 50) {
+                finalPrice = totalfsTax;
+            } else {
+                finalPrice = totalffTax;
+            }
+        }
+
+        if (cur === true) {
+            finalPrice = totalcurTax;
+        }
+
+        console.log(finalPrice);
     }
 
-    const curOn = (e) => {
+    const calculateNow = (e) => {
+        if (price === '') {
+            console.log('Please, enter a price');
+        } else {
 
-        console.log('Currency calculate')
+            calcNow();
 
+            if (dig === true) {
+                finalPrice = totaldigTax;
+            }
+            
+            if (phys === true) {
+                if (price <= 50) {
+                    finalPrice = totalfsTax;
+                } else {
+                    finalPrice = totalffTax;
+                }
+            }
+
+            if (cur === true) {
+                finalPrice = totalcurTax;
+            }
+
+        }
+        
     }
+
+
+
+
+
+    //var calcValue = false;
+
 
 
 
