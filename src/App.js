@@ -6,10 +6,13 @@ const App = () => {
 
     var finalPrice;
 
+    //API call from the exchange rate API.
+
 
     const URL = 'https://api.exchangerate-api.com/v4/latest/USD';
 
     var dollar;
+    var oneOb;
 
     const getDollar = async () => {
         const response = await fetch(URL);
@@ -18,18 +21,19 @@ const App = () => {
         var { ARS } = rates;
         ARS = JSON.parse(ARS);
         dollar = parseFloat(ARS);
+        oneOb = dollar;
     }
     
     getDollar();
 
+    //Declaring some variables...
+
 
     var isChecked = false;
 
-    var dig = true;
-
-
-    var cur = false;
-    var phys = false;
+    var dig;
+    var cur;
+    var phys;
 
 
     var totaldigTax;
@@ -39,15 +43,23 @@ const App = () => {
 
     const [price, setPrice] = useState('');
 
+    //Event handlers for the buttons and the switch...
+
     const isOn = (e) => {
         if (isChecked === false) {
             isChecked = true;
-            dollar = 1;
-            console.log('Modo pesos activado');
+            oneOb = 1;
+            document.getElementById('curRadio').disabled=true
+            if (isChecked === true) {
+                console.log('Switch to pesos activated')
+            }
         } else {
-            console.log('Modo pesos desactivado');
-            dollar = 85.88;
             isChecked = false;
+            oneOb = dollar;
+            document.getElementById('curRadio').disabled=false
+            if (isChecked === false) {
+                console.log('Switch to pesos disabled')
+            }
         } 
     }
 
@@ -72,10 +84,11 @@ const App = () => {
         console.log('Currency calculate');
     }
 
+    //Calculating the taxes using the API call return data...
 
     const calcNow = () => {
 
-        const prodPrice = price * dollar;
+        const prodPrice = price * oneOb;
 
         var imp30 = prodPrice*3/10;
         const imp35 = prodPrice*35/100;
@@ -100,6 +113,8 @@ const App = () => {
         const curTax = imp30 + imp35;
         totalcurTax = curTax + prodPrice;
     }
+
+    //Event handling for the calculate Btn...
 
     const calculate = (e) => {
 
@@ -162,9 +177,9 @@ const App = () => {
                 <span className="slider round"></span>
             </label>
             <form>
-                <input type="radio" name="choice" value="digital" defaultChecked={false} onClick={digOn}/>Digital
+                <input type="radio" id="digRadio" name="choice" value="digital" defaultChecked={false} onClick={digOn}/>Digital
                 <input type="radio" name="choice" value="physical" defaultChecked={false} onClick={physOn}/>Fisico
-                <input type="radio" name="choice" value="currency" defaultChecked={false} onClick={curOn}/>Divisa
+                <input type="radio" id="curRadio" name="choice" value="currency" defaultChecked={false} onClick={curOn}/>Divisa
             </form>
             <input
                 type="number"
