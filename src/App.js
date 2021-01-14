@@ -6,12 +6,28 @@ const App = () => {
 
     var finalPrice;
 
-    var dollar = 84;
+
+    const URL = 'https://api.exchangerate-api.com/v4/latest/USD';
+
+    var dollar;
+
+    const getDollar = async () => {
+        const response = await fetch(URL);
+        const data = await response.json();
+        const { rates } = data;
+        var { ARS } = rates;
+        ARS = JSON.parse(ARS);
+        dollar = parseFloat(ARS);
+    }
+    
+    getDollar();
+
 
     var isChecked = false;
 
+    var dig = true;
 
-    var dig = false;
+
     var cur = false;
     var phys = false;
 
@@ -20,8 +36,6 @@ const App = () => {
     var totalfsTax;
     var totalffTax;
     var totalcurTax;
-
-
 
     const [price, setPrice] = useState('');
 
@@ -32,36 +46,34 @@ const App = () => {
             console.log('Modo pesos activado');
         } else {
             console.log('Modo pesos desactivado');
-            dollar = 84;
+            dollar = 85.88;
             isChecked = false;
         } 
     }
 
     const digOn = (e) => {
-        if (dig === false) {
-            dig = true;
-            console.log('Dig calculate');
-        }
+        dig = true;
+        cur = false;
+        phys = false;
+        console.log('Dig calculate');
     }
 
     const physOn = (e) => {
-        if (phys === false) {
-            phys = true;
-            console.log('Physical calculate');
-        } 
+        phys = true;
+        dig = false;
+        cur = false;
+        console.log('Phys calculate')
     }
 
     const curOn = (e) => {
-        if (cur === false) {
-            cur = true;
-            console.log('Currency calculate');
-        } 
+        cur = true;
+        phys = false;
+        dig = false;
+        console.log('Currency calculate');
     }
 
 
     const calcNow = () => {
-
-        //calcValue = true;
 
         const prodPrice = price * dollar;
 
@@ -92,8 +104,35 @@ const App = () => {
     const calculate = (e) => {
 
         if (e.key === 'Enter') {
+
             calcNow();
+            console.log(dig);
+
+            if (dig === true) {
+                finalPrice = totaldigTax;
+            }
+
+            if (phys === true) {
+                if (price <= 50) {
+                    finalPrice = totalfsTax;
+                } else {
+                    finalPrice = totalffTax;
+                }
+            }
+
+            if (cur === true) {
+                finalPrice = totalcurTax;
+            }
+
+            console.log(finalPrice);
         }
+    }
+
+
+
+    const calculateNow = (e) => {
+        //console.log('Please, enter a price');
+        calcNow();
 
         if (dig === true) {
             finalPrice = totaldigTax;
@@ -110,44 +149,8 @@ const App = () => {
         if (cur === true) {
             finalPrice = totalcurTax;
         }
-
         console.log(finalPrice);
     }
-
-    const calculateNow = (e) => {
-        if (price === '') {
-            console.log('Please, enter a price');
-        } else {
-
-            calcNow();
-
-            if (dig === true) {
-                finalPrice = totaldigTax;
-            }
-            
-            if (phys === true) {
-                if (price <= 50) {
-                    finalPrice = totalfsTax;
-                } else {
-                    finalPrice = totalffTax;
-                }
-            }
-
-            if (cur === true) {
-                finalPrice = totalcurTax;
-            }
-
-        }
-        
-    }
-
-
-
-
-
-    //var calcValue = false;
-
-
 
 
     return (
