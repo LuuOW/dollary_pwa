@@ -22,6 +22,8 @@ const App = () => {
         ARS = JSON.parse(ARS);
         dollar = parseFloat(ARS);
         oneOb = dollar;
+        var output = 'Dolar oficial: ' + dollar.toFixed(2);
+        document.getElementById('dolarOficial').innerHTML = output;
     }
     
     getDollar();
@@ -29,11 +31,9 @@ const App = () => {
     //Declaring some variables...
 
 
-    var isChecked = false;
+    const [isChecked, setChecked] = useState(false);
 
-    var dig;
-    var cur;
-    var phys;
+    const [radio, setRadio] = useState('');
 
 
     var totaldigTax;
@@ -45,44 +45,19 @@ const App = () => {
 
     //Event handlers for the buttons and the switch...
 
-    const isOn = (e) => {
+    const isOn = () => {
         if (isChecked === false) {
-            isChecked = true;
             oneOb = 1;
-            document.getElementById('curRadio').disabled=true
-            if (isChecked === true) {
-                console.log('Switch to pesos activated')
-            }
+            document.getElementById('curRadio').disabled = true;
+            console.log('Switch to pesos activated');
         } else {
-            isChecked = false;
             oneOb = dollar;
-            document.getElementById('curRadio').disabled=false
-            if (isChecked === false) {
-                console.log('Switch to pesos disabled')
-            }
-        } 
+            document.getElementById('curRadio').disabled = false;
+            console.log('Switch to pesos disabled');
+
+        }
     }
 
-    const digOn = (e) => {
-        dig = true;
-        cur = false;
-        phys = false;
-        console.log('Dig calculate');
-    }
-
-    const physOn = (e) => {
-        phys = true;
-        dig = false;
-        cur = false;
-        console.log('Phys calculate')
-    }
-
-    const curOn = (e) => {
-        cur = true;
-        phys = false;
-        dig = false;
-        console.log('Currency calculate');
-    }
 
     //Calculating the taxes using the API call return data...
 
@@ -96,7 +71,7 @@ const App = () => {
         const cin50 = prodPrice-50;
         const imp50 = cin50*5/10;
 
-        if (dig === true) {
+        if ("dig" === radio) {
             imp30 = prodPrice*8/100;
         }
 
@@ -114,6 +89,7 @@ const App = () => {
         totalcurTax = curTax + prodPrice;
     }
 
+
     //Event handling for the calculate Btn...
 
     const calculate = (e) => {
@@ -121,13 +97,12 @@ const App = () => {
         if (e.key === 'Enter') {
 
             calcNow();
-            console.log(dig);
 
-            if (dig === true) {
+            if ("dig" === radio) {
                 finalPrice = totaldigTax;
             }
 
-            if (phys === true) {
+            if ("phys" === radio) {
                 if (price <= 50) {
                     finalPrice = totalfsTax;
                 } else {
@@ -135,25 +110,29 @@ const App = () => {
                 }
             }
 
-            if (cur === true) {
+            if ("cur" === radio) {
                 finalPrice = totalcurTax;
             }
 
+            finalPrice = finalPrice.toFixed(2);
+
             console.log(finalPrice);
+            document.getElementById("result").innerHTML = finalPrice;
+            setPrice('');
         }
     }
 
 
 
-    const calculateNow = (e) => {
+    const calculateNow = () => {
         //console.log('Please, enter a price');
         calcNow();
 
-        if (dig === true) {
+        if ("dig" === radio) {
             finalPrice = totaldigTax;
         }
 
-        if (phys === true) {
+        if ("phys" === radio) {
             if (price <= 50) {
                 finalPrice = totalfsTax;
             } else {
@@ -161,35 +140,36 @@ const App = () => {
             }
         }
 
-        if (cur === true) {
+        if ("cur" === radio) {
             finalPrice = totalcurTax;
         }
+
+        finalPrice = finalPrice.toFixed(2);
+
         console.log(finalPrice);
+        document.getElementById("result").innerHTML = finalPrice;
+        setPrice('');
     }
 
 
     return (
         <div className="App">
             <h1>Dollary</h1>
-            <p>Switch to Pesos</p>
+            <p id="dolarOficial"></p>
+            <p>Switch to Pesos is: {isChecked ? "Activated" : "Deactivated"}</p>
             <label className="switch">
-                <input id="switch" type="checkbox" defaultChecked={false} onChange={isOn}/>
+                <input id="switch" type="checkbox" checked={isChecked} onChange={(e) => {setChecked(e.target.checked)}} onClick={isOn}/>
                 <span className="slider round"></span>
             </label>
+            <p>Current Mode is: {radio}</p>
             <form>
-                <input type="radio" id="digRadio" name="choice" value="digital" defaultChecked={false} onClick={digOn}/>Digital
-                <input type="radio" name="choice" value="physical" defaultChecked={false} onClick={physOn}/>Fisico
-                <input type="radio" id="curRadio" name="choice" value="currency" defaultChecked={false} onClick={curOn}/>Divisa
+                <input type="radio" id="digRadio" name="choice" checked={radio === "dig"} value="dig" onChange={(e) => {setRadio(e.target.value)}} />Digital
+                <input type="radio" id="physRadio" name="choice" checked={radio === "phys"} value="phys" onChange={(e) => {setRadio(e.target.value)}} />Fisico
+                <input type="radio" id="curRadio" name="choice" checked={radio === "cur"} value="cur" onChange={(e) => {setRadio(e.target.value)}} />Divisa
             </form>
-            <input
-                type="number"
-                className="calculate"
-                placeholder="Ingrese el precio del producto..."
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                onKeyPress={calculate}
-            />
+            <input type="number" className="calculate" placeholder="Ingrese el precio del producto..." value={price} onChange={(e) => setPrice(e.target.value)} onKeyPress={calculate}/>
             <button className="calcBtn" id="calcBtn" type="submit" onClick={calculateNow}>Calcular</button>
+            <p id="result"></p>
         </div>
     );
 }
