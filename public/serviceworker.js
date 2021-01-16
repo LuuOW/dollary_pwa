@@ -1,7 +1,11 @@
 const CACHE_NAME = "version-1"
 const urlsToCache = [
     'index.html',
-    'offline.html'
+    'offline.html',
+    '../src/App.css',
+    '../src/App.js',
+    '../src/index.js',
+    '../src/variables.css'
 ];
 
 const self = this;
