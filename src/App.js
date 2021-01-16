@@ -25,7 +25,7 @@ const App = () => {
         var output = 'Dolar oficial: ' + dollar.toFixed(2);
         document.getElementById('dolarOficial').innerHTML = output;
     }
-    
+
     getDollar();
 
     //Declaring some variables...
@@ -52,14 +52,14 @@ const App = () => {
 
         const prodPrice = price * oneOb;
 
-        var imp30 = prodPrice*3/10;
-        const imp35 = prodPrice*35/100;
-        const imp21 = prodPrice*21/100;
-        const cin50 = prodPrice-50;
-        const imp50 = cin50*5/10;
+        var imp30 = prodPrice * 3 / 10;
+        const imp35 = prodPrice * 35 / 100;
+        const imp21 = prodPrice * 21 / 100;
+        const cin50 = prodPrice - 50;
+        const imp50 = cin50 * 5 / 10;
 
         if ("dig" === radio) {
-            imp30 = prodPrice*8/100;
+            imp30 = prodPrice * 8 / 100;
         }
 
 
@@ -138,12 +138,9 @@ const App = () => {
             if (isChecked === true) {
                 oneOb = 1;
                 document.getElementById('curRadio').disabled = true;
-                console.log('Switch to pesos activated');
             } else {
                 oneOb = dollar;
                 document.getElementById('curRadio').disabled = false;
-                console.log('Switch to pesos disabled');
-
             }
 
             calcNow();
@@ -181,21 +178,27 @@ const App = () => {
             <p id="dolarOficial"></p>
             <p>Switch to Pesos is: {isChecked ? "Activated" : "Deactivated"}</p>
             <label className="switch">
-                <input id="switch" type="checkbox" checked={isChecked} onChange={(e) => { setChecked(e.target.checked) }}/>
+                <input id="switch" type="checkbox" checked={isChecked} onChange={(e) => { setChecked(e.target.checked) }} />
                 <span className="slider round"></span>
             </label>
             <p>Seleccione el tipo de producto: </p>
             <form>
-                <label className="radioBtns">
-                    <input type="radio" id="digRadio" name="choice" checked={radio === "dig"} value="dig" onChange={(e) => { setRadio(e.target.value) }} />Digital
-                <input type="radio" id="physRadio" name="choice" checked={radio === "phys"} value="phys" onChange={(e) => { setRadio(e.target.value) }} />Fisico
-                <input type="radio" id="curRadio" name="choice" checked={radio === "cur"} value="cur" onChange={(e) => { setRadio(e.target.value) }} />Divisa
-                </label>
+                <div className="radioBtns">
+                    <input type="radio" id="digRadio" name="choice" checked={radio === "dig"} value="dig" onChange={(e) => { setRadio(e.target.value) }} />
+                    <label>Digital</label>
+
+                    <input type="radio" id="physRadio" name="choice" checked={radio === "phys"} value="phys" onChange={(e) => { setRadio(e.target.value) }} />
+                    <label>Fisico</label>
+
+
+                    <input type="radio" id="curRadio" name="choice" checked={radio === "cur"} value="cur" onChange={(e) => { setRadio(e.target.value) }} />
+                    <label>Divisa</label>
+                </div>
             </form>
             <label className="calcSector">
-            <input type="number" className="calculate" placeholder="Ingrese el precio del producto..." value={price} onChange={(e) => setPrice(e.target.value)} onKeyPress={calculate} />
-            <button className="calcBtn" id="calcBtn" type="submit" onClick={calculateNow}>Calcular</button>
-            <p id="result"></p>
+                <input type="number" className="calculate" placeholder="Ingrese el precio del producto..." value={price} onChange={(e) => setPrice(e.target.value)} onKeyPress={calculate} />
+                <button className="calcBtn" id="calcBtn" type="submit" onClick={calculateNow}>Calcular</button>
+                <p id="result"></p>
             </label>
         </div>
     );
