@@ -81,9 +81,60 @@ const App = () => {
 
     const calculate = (e) => {
 
-        if (e.key === 'Enter' && setPrice !== '') {
+        if (e.key === 'Enter') {
+            if (price === '') {
+                alert('Porfavor introduce el precio del producto');
+
+            } else if ('dig' !== radio && 'cur' !== radio && 'phys' !== radio) {
+                alert('Porfavor selecciona el tipo de producto...');
+
+            } else {
+                if (isChecked === true) {
+                    oneOb = 1;
+                    document.getElementById('curRadio').disabled = true;
+                } else {
+                    oneOb = dollar;
+                    document.getElementById('curRadio').disabled = false;
+                }
+
+                calcNow();
 
 
+                if ("dig" === radio) {
+                    finalPrice = totaldigTax;
+                }
+
+                if ("phys" === radio) {
+                    if (price <= 50) {
+                        finalPrice = totalfsTax;
+                    } else {
+                        finalPrice = totalffTax;
+                    }
+                }
+
+                if ("cur" === radio) {
+                    finalPrice = totalcurTax;
+                }
+
+                finalPrice = finalPrice.toFixed(2);
+                var output = 'El precio total a pagar es: ' + finalPrice;
+                document.getElementById("result").innerHTML = output;
+                setPrice('');
+            }
+        }
+    }
+
+
+
+    const calculateNow = () => {
+
+        if (price === '') {
+            alert('Porfavor introduce el precio del producto');
+
+        } else if ('dig' !== radio && 'cur' !== radio && 'phys' !== radio) {
+            alert('Porfavor selecciona el tipo de producto...');
+
+        } else {
             if (isChecked === true) {
                 oneOb = 1;
                 document.getElementById('curRadio').disabled = true;
@@ -96,6 +147,7 @@ const App = () => {
             }
 
             calcNow();
+
 
             if ("dig" === radio) {
                 finalPrice = totaldigTax;
@@ -116,39 +168,11 @@ const App = () => {
             finalPrice = finalPrice.toFixed(2);
             var output = 'El precio total a pagar es: ' + finalPrice;
             document.getElementById("result").innerHTML = output;
-
             setPrice('');
         }
+
     }
 
-
-
-    const calculateNow = () => {
-        //console.log('Please, enter a price');
-        calcNow();
-
-        if ("dig" === radio) {
-            finalPrice = totaldigTax;
-        }
-
-        if ("phys" === radio) {
-            if (price <= 50) {
-                finalPrice = totalfsTax;
-            } else {
-                finalPrice = totalffTax;
-            }
-        }
-
-        if ("cur" === radio) {
-            finalPrice = totalcurTax;
-        }
-
-        finalPrice = finalPrice.toFixed(2);
-
-        console.log(finalPrice);
-        document.getElementById("result").innerHTML = finalPrice;
-        setPrice('');
-    }
 
 
     return (
