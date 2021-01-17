@@ -181,8 +181,7 @@ const App = () => {
                 <input id="switch" type="checkbox" checked={isChecked} onChange={(e) => { setChecked(e.target.checked) }} />
                 <span className="slider round"></span>
             </label>
-            <p>Seleccione el tipo de producto: </p>
-            <form>
+            <p className="prodTitle">Seleccione el tipo de producto: </p>
                 <div className="radioBtns">
                     <input type="radio" id="digRadio" name="choice" checked={radio === "dig"} value="dig" onChange={(e) => { setRadio(e.target.value) }} />
                     <label>Digital</label>
@@ -194,7 +193,6 @@ const App = () => {
                     <input type="radio" id="curRadio" name="choice" checked={radio === "cur"} value="cur" onChange={(e) => { setRadio(e.target.value) }} />
                     <label>Divisa</label>
                 </div>
-            </form>
             <label className="calcSector">
                 <input type="number" className="calculate" placeholder="Ingrese el precio del producto..." value={price} onChange={(e) => setPrice(e.target.value)} onKeyPress={calculate} />
                 <button className="calcBtn" id="calcBtn" type="submit" onClick={calculateNow}>Calcular</button>

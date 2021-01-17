@@ -74,10 +74,24 @@ input:checked+.slider:before {
   border-radius: 50%;
 }
 
+.prodTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 2rem;
+}
+
+.radioBtns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
 
 .radioBtns label {
   list-style: none;
-  display: grid;
+  margin-left: 0.5rem;
+  margin-right: 1rem;
   margin-top: 1rem;
 }
 
@@ -85,11 +99,10 @@ input:checked+.slider:before {
   width: 15px;
   height: 15px;
   border-radius: 15px;
-  position: relative;
   background-color: var(--color-purple-grey);
   content: '';
   flex-wrap: wrap;
-  display: inline-block;
+  display: flex;
   visibility: visible;
   border: 2px solid white;
 }
@@ -98,11 +111,9 @@ input:checked+.slider:before {
   width: 15px;
   height: 15px;
   border-radius: 15px;
-  position: relative;
   flex-wrap: wrap;
   background-color: var(--color-purple-light);
   content: '';
-  display: inline-block;
   visibility: visible;
   border: 2px solid white;
 }
@@ -111,9 +122,9 @@ input:checked+.slider:before {
 
 .calcSector {
   display: grid;
-  flex-wrap: wrap;
-  text-align: center;
+  align-items: center;
   justify-content: center;
+  margin-right: 1rem;
 }
 
 .calculate {
