@@ -76,6 +76,23 @@ const App = () => {
         totalcurTax = curTax + prodPrice;
     }
 
+    
+
+
+    const changeNow = () => {
+        const curBtn = document.getElementById('curRadio');
+        const curLabel = document.getElementById('curLabel');
+
+        if (isChecked === false) {
+            document.getElementById('curRadio').disabled = true;
+            curLabel.style.display = 'none';
+            curBtn.style.display = 'none'; 
+        } else {
+            document.getElementById('curRadio').disabled = false;
+            curLabel.style.display = null;
+            curBtn.style.display = null; 
+        }
+    }
 
     //Event handling for the calculate Btn...
 
@@ -89,13 +106,15 @@ const App = () => {
                 alert('Porfavor selecciona el tipo de producto...');
 
             } else {
+
                 if (isChecked === true) {
                     oneOb = 1;
-                    document.getElementById('curRadio').disabled = true;
+                    
                 } else {
                     oneOb = dollar;
-                    document.getElementById('curRadio').disabled = false;
                 }
+                
+                    
 
                 calcNow();
 
@@ -137,10 +156,8 @@ const App = () => {
         } else {
             if (isChecked === true) {
                 oneOb = 1;
-                document.getElementById('curRadio').disabled = true;
             } else {
                 oneOb = dollar;
-                document.getElementById('curRadio').disabled = false;
             }
 
             calcNow();
@@ -178,7 +195,7 @@ const App = () => {
             <p id="dolarOficial"></p>
             <p>Switch to Pesos is: {isChecked ? "Activated" : "Deactivated"}</p>
             <label className="switch">
-                <input id="switch" type="checkbox" checked={isChecked} onChange={(e) => { setChecked(e.target.checked) }} />
+                <input id="switch" type="checkbox" checked={isChecked} onClick={changeNow} onChange={(e) => { setChecked(e.target.checked) }} />
                 <span className="slider round"></span>
             </label>
             <p className="prodTitle">Seleccione el tipo de producto: </p>
@@ -191,7 +208,7 @@ const App = () => {
 
 
                     <input type="radio" id="curRadio" name="choice" checked={radio === "cur"} value="cur" onChange={(e) => { setRadio(e.target.value) }} />
-                    <label>Divisa</label>
+                    <label id="curLabel">Divisa</label>
                 </div>
             <label className="calcSector">
                 <input type="number" className="calculate" placeholder="Ingrese el precio del producto..." value={price} onChange={(e) => setPrice(e.target.value)} onKeyPress={calculate} />
@@ -200,6 +217,7 @@ const App = () => {
             </label>
         </div>
     );
+    
 }
 
 export default App;
