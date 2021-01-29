@@ -24,7 +24,6 @@ const App = () => {
         EUR = JSON.parse(EUR);
         eur = parseFloat(EUR);
 
-
         var { ARS } = rates;
         ARS = JSON.parse(ARS);
         dollar = parseFloat(ARS);
@@ -33,6 +32,10 @@ const App = () => {
         document.getElementById('dolarOficial').innerHTML = output;
 
         euros = 1 / eur * dollar;
+
+        var eurOutput = 'Euro oficial: ' + euros.toFixed(2);
+        document.getElementById('euroOficial').innerHTML = eurOutput;
+
     }
 
     getDollar();
@@ -88,21 +91,49 @@ const App = () => {
     }
 
 
-
-
     const changeNow = () => {
         const curBtn = document.getElementById('curRadio');
         const curLabel = document.getElementById('curLabel');
 
         if (isChecked === false) {
+            const switchEur = document.getElementById('switchEur');
+            const eurLabel = document.getElementById('eurLabel');
+
             document.getElementById('curRadio').disabled = true;
+
+            switchEur.disabled = true;
+            eurLabel.style.display = 'none';
             curLabel.style.display = 'none';
             curBtn.style.display = 'none';
+
         } else {
+
             document.getElementById('curRadio').disabled = false;
+            const switchEur = document.getElementById('switchEur');
+            const eurLabel = document.getElementById('eurLabel');
+
+            switchEur.disabled = false;
+            eurLabel.style.display = null;
             curLabel.style.display = null;
             curBtn.style.display = null;
         }
+    }
+
+    const changeEur = () => {
+
+
+        if (eurCheck === false) {
+            const switchPesos = document.getElementById('switch');
+            const pesosLabel = document.getElementById('pesosLabel');
+            switchPesos.disabled = true;
+            pesosLabel.style.display = 'none';
+        } else {
+            const switchPesos = document.getElementById('switch');
+            const pesosLabel = document.getElementById('pesosLabel');
+            switchPesos.disabled = false;
+            pesosLabel.style.display = null;
+        }
+
     }
 
     //Event handling for the calculate Btn...
@@ -215,14 +246,20 @@ const App = () => {
         <div className="App">
             <h1 className="title">Dollary</h1>
             <p id="dolarOficial"></p>
+            <p id="euroOficial"></p>
+            <label id="pesosLabel" className="pesosSector">
             <p>Switch to Pesos is: {isChecked ? "Activated" : "Deactivated"}</p>
             <label className="switch">
                 <input id="switch" type="checkbox" checked={isChecked} onClick={changeNow} onChange={(e) => { setChecked(e.target.checked) }} />
                 <span className="slider round"></span>
             </label>
-            <label className="switchEur">
-                <p>Currency type: {eurCheck ? "Euro" : "Dollar"}</p>
-                <input id="switchEur" type="checkbox" checked={eurCheck} onChange={(e) => { eurChecked(e.target.checked) }} />
+            </label>
+            <label id="eurLabel">
+            <p>Switch to Euros is: {eurCheck ? "Activated" : "Deactivated"}</p>
+            <label className="switch">
+                <input id="switchEur" type="checkbox" checked={eurCheck} onClick={changeEur} onChange={(e) => { eurChecked(e.target.checked) }} />
+                <span className="slider round"></span>
+            </label>
             </label>
             <p className="prodTitle">Seleccione el tipo de producto: </p>
             <div className="radioBtns">
