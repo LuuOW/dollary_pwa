@@ -1,10 +1,6 @@
-
 var deferredPrompt;
-var networkDataReceived = false;
-var url = ""; // EJEMPLO DE APLICACION DE CACHE THEN NETWORK
 
 function openCreatePostModel() {
-    //$('#create-post').css('display', 'block');
     if (deferredPrompt) {
         //console.log("4");
         console.log("entro para el baner");
@@ -41,34 +37,4 @@ function openCreatePostModel() {
         openCreatePostModel();
         return false;
     });
-    //console.log("3");
-
-
-    fetch(url)
-        .then(function (res) {
-            //console.log("app aqui si");
-            // return res.json();
-            //return JSON.parse(res);
-        })
-        .then(function (data) {
-            networkDataReceived = true;
-            //console.log('From web', data);
-
-
-        });
-
-    if ('caches' in window) {
-        caches.match(url)
-            .then(function (response) {
-                if (response) {
-                    // return response.json();
-                    //return JSON.parse(response);
-                }
-            })
-            .then(function (data) {
-                if (!networkDataReceived) {
-                    /*console.log('From cache', data); */// que cosa puedo hacer al actualizar algo en cache?????
-                }
-            });
-    }
 })();
